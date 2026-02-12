@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>3D Rotating Star</title>
+    <style>
+        /* Center the star on the screen */
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #1a1a1a;
+            overflow: hidden;
+            perspective: 800px; /* Adds 3D depth */
+        }
+
+        .star-container {
+            font-size: 150px;
+            color: #ffd700;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+            transform-style: preserve-3d;
+            animation: rotate3d 5s linear infinite;
+        }
+
+        /* 3D Rotation Animation */
+        @keyframes rotate3d {
+            0% {
+                transform: rotateY(0deg) rotateX(20deg);
+            }
+            100% {
+                transform: rotateY(360deg) rotateX(20deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="star-container">★</div>
+</body>
+</html>
