@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hacker Interface</title>
+    <style>
+        body {
+    margin: 0;
+    padding: 0;
+    background-color: black;
+    color: #00ff00;
+    font-family: 'Courier New', monospace;
+    font-size: 16px;
+    overflow: hidden;
+}
+
+#container {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+}
+
+#terminal {
+    flex: 3; /* Takes 3/4 of the width */
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+#output {
+    flex: 1;
+    overflow-y: auto;
+    white-space: pre-wrap;
+}
+
+#input-line {
+    display: flex;
+    align-items: center;
+}
+
+#prompt {
+    color: #00ff00;
+}
+
+#command-input {
+    background: transparent;
+    border: none;
+    color: #00ff00;
+    font-family: inherit;
+    font-size: inherit;
+    outline: none;
+    flex: 1;
+    caret-color: #00ff00;
+}
+
+/* Blinking cursor effect */
+#command-input::after {
+    content: '';
+    display: inline-block;
+    width: 10px;
+    height: 1em;
+    background-color: #00ff00;
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
+#earth-container {
+    flex: 1; /* Takes 1/4 of the width */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: black;
+}
+
+#earth {
+    width: 200px;
+    height: 200px;
+    background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Equirectangular_projection_SW.jpg/256px-Equirectangular_projection_SW.jpg') no-repeat center;
+    background-size: cover;
+    border-radius: 50%;
+    animation: rotate 10s linear infinite; /* Rotates every 10 seconds */
+    box-shadow: 0 0 20px #00ff00; /* Green glow for effect */
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div id="terminal">
+            <div id="output"></div>
+            <div id="input-line">
+                <span id="prompt">root@hackersystem:~# </span>
+                <input type="text" id="command-input" autofocus>
+            </div>
+        </div>
+        <div id="earth-container">
+            <div id="earth"></div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+    const output = document.getElementById('output');
+    const input = document.getElementById('command-input');
+    const prompt = document.getElementById('prompt');
+
+    // Initial welcome message with typing effect
+    typeText("Welcome to the Hacker Terminal v1.0\nType 'help' for commands.\n\n", 50);
+
+    // Handle Enter key for commands
+    input.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+            const command = input.value.trim();
+            output.textContent += prompt.textContent + command + '\n';
+            processCommand(command);
+            input.value = '';
+        }
+    });
+
+    // Function to simulate typing text
+    function typeText(text, speed = 100) {
+        let i = 0;
+        const interval = setInterval(() => {
+            output.textContent += text[i];
+            i++;
+            if (i >= text.length) clearInterval(interval);
+        }, speed);
+    }
+
+    // Process commands with fake hacking features
+    function processCommand(cmd) {
+        const lowerCmd = cmd.toLowerCase();
+        let response = '';
+
+        switch (lowerCmd) {
+            case 'help':
+                response = 'Available commands:\n- scan: Simulate scanning a network\n- hack: Fake hacking attempt\n- access: Pretend to access a system\n- clear: Clear the terminal\n- exit: Close the interface\n\n';
+                break;
+            case 'scan':
+                response = 'Scanning network...\n[████████████████████] 100%\nVulnerabilities found: 3\n- Port 80 open\n- Port 443 open\n- Weak password detected\n\n';
+                break;
+            case 'hack':
+                response = 'Initiating hack...\nBypassing firewall...\n[████████████████████] 100%\nAccess granted. System compromised.\n\n';
+                break;
+            case 'access':
+                response = 'Accessing remote system...\nUsername: admin\nPassword: ********\nLogin successful. Welcome to the matrix.\n\n';
+                break;
+            case 'clear':
+                output.textContent = '';
+                return;
+            case 'exit':
+                response = 'Shutting down...\nGoodbye, hacker.\n';
+                setTimeout(() => window.close(), 2000);
+                break;
+            default:
+                response = `Command '${cmd}' not recognized. Type 'help' for options.\n\n`;
+        }
+
+        typeText(response, 50);
+    }
+});
+    </script>
+</body>
+</html>
